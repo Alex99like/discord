@@ -35,7 +35,7 @@ export const SocketProvider = ({
       path: "/api/socket/io",
       addTrailingSlash: false,
     });
-
+    
     socketInstance.on("connect", () => {
       setIsConnected(true);
     });
