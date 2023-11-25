@@ -11,32 +11,32 @@ interface ServerSidebarProps {
 export const ServerSidebar = async ({
   serverId
 }: ServerSidebarProps) => {
-  const profile = await currentProfile()
+  const profile = await currentProfile();
 
   if (!profile) {
-    return redirect('/')
+    return redirect("/");
   }
 
   const server = await db.server.findUnique({
     where: {
-      id: serverId
+      id: serverId,
     },
     include: {
       channels: {
         orderBy: {
-          createdAt: 'asc'
-        }
+          createdAt: "asc",
+        },
       },
       members: {
         include: {
-          profile: true
+          profile: true,
         },
         orderBy: {
-          role: 'asc'
+          role: "asc",
         }
       }
     }
-  })
+  });
 
   const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT)
   const audioChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO)
@@ -44,11 +44,11 @@ export const ServerSidebar = async ({
   const members = server?.members.filter((member) => member.profileId !== profile.id)
 
   if (!server) {
-    return redirect('/')
+    return redirect("/");
   }
 
-  const role = server.members.find((member) => member.profileId === profile.id)?.role
-
+  const role = server.members.find((member) => member.profileId === profile.id)?.role;
+  
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
       <ServerHeader
